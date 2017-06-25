@@ -1,0 +1,14 @@
+html {display: table; margin: auto;}
+html, body {height: 100%;}
+
+@font-face {font-family: Liberation Serif; src: url(../jdgmiles.github.io/LiberationSerif.woff);}
+
+::selection {background-color:none; color:none;}
+
+td {text-align:center; width:350px; height:100px}
+
+body {background-color:black; font-family: Liberation Serif; font-size: 60px; color:white; vertical-align:middle; display: table-cell; user-select: none;}
+.holder {text-align:center}
+
+.inputbox {background-color:black; color:white; font-size:55px; font-family: Liberation Serif; width:400px; height:210px; text-align:center;}
+.startbutton {background-color:black; color:white; font-size:45px; font-family: Liberation Serif;}

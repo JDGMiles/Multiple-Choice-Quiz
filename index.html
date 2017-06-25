@@ -1,0 +1,156 @@
+<!DOCTYPE html><html>
+
+<head><title>Multiple Choice</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" type="text/css" href="style.css">
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+
+<body><center id="console">
+  <textarea class="inputbox" id="userquiz">1, 2, 3, ..., n,
+one, two, three,
+dot dot dot, "en"</textarea><br>
+  <button class="startbutton" onclick="startquiz()">Start Quiz</button>
+</center></body>
+
+</html>
+
+<script type="text/javascript">
+
+var questionspeed=500;
+
+var input=0;
+var inputarray=[];
+
+// input=window.location.search.substring(1);
+// inputarray=input.split(",");
+// document.getElementById("bongo").innerHTML=inputarray;
+
+var quiz=["食", "週", "外", "行", "新", "eat", "week", "outside", "journey", "new"];
+var tempquiz=["bongo"];
+
+var done=[]; for(i=0; i<quiz.length/2; i++){done[i]=0;}
+var correctcount=0;
+
+var correctanswer=0;
+
+var possiblequestion=0;
+
+var attempts=0;
+
+var oktoclick=1;
+
+function newquestion(){
+
+  document.getElementById("Question").style.backgroundColor="black";
+  document.getElementById(1).style.backgroundColor="black";
+  document.getElementById(2).style.backgroundColor="black";
+  document.getElementById(3).style.backgroundColor="black";
+
+  correctanswer=Math.floor(Math.random()*3)+1;
+
+  var usedquestion=1;
+  var wronganswer1=0;
+  var wronganswer2=0;
+
+  possiblequestion=0;
+
+  while(usedquestion){
+    possiblequestion=Math.floor(Math.random()*quiz.length/2);
+    if(!done[possiblequestion]){usedquestion=0;}
+  }
+
+  usedquestion=1;
+
+  while(usedquestion){
+    wronganswer1=Math.floor(Math.random()*quiz.length/2);
+    if(wronganswer1!=possiblequestion){usedquestion=0;}
+  }
+
+  usedquestion=1;
+
+  while(usedquestion){
+    wronganswer2=Math.floor(Math.random()*quiz.length/2);
+    if(wronganswer2!=possiblequestion && wronganswer2!=wronganswer1){usedquestion=0;}
+  }
+
+  if(Math.random()<0.5){
+    for(i=0; i<quiz.length/2; i++){
+      tempquiz[i]=quiz[i+quiz.length/2];
+      tempquiz[i+quiz.length/2]=quiz[i];
+    }
+    for(i=0; i<quiz.length; i++){quiz[i]=tempquiz[i];}
+  }
+
+  document.getElementById(correctanswer).innerHTML=quiz[possiblequestion];
+  document.getElementById("Question").innerHTML=quiz[possiblequestion+quiz.length/2];
+
+  if(correctanswer==1){
+    document.getElementById(2).innerHTML=quiz[wronganswer1];
+    document.getElementById(3).innerHTML=quiz[wronganswer2];
+  }
+
+  if(correctanswer==2){
+    document.getElementById(1).innerHTML=quiz[wronganswer1];
+    document.getElementById(3).innerHTML=quiz[wronganswer2];
+  }
+
+  if(correctanswer==3){
+    document.getElementById(1).innerHTML=quiz[wronganswer1];
+    document.getElementById(2).innerHTML=quiz[wronganswer2];
+  }
+  oktoclick=1;
+
+}
+
+
+function clicked(n) {
+  oktoclick=0;
+  attempts++;
+  if(n==correctanswer){
+    document.getElementById(n).style.backgroundColor="green";
+    correctcount++; done[possiblequestion]=1;
+  }
+  else{
+    document.getElementById(n).style.backgroundColor="red";
+  }
+  if(correctcount<done.length){setTimeout(newquestion, questionspeed);}
+
+  else if(correctcount==done.length){setTimeout(scorescreen, questionspeed);}
+
+  else if(n==1){
+    attempts=0; correctcount=0; for(i=0; i<quiz.length/2; i++){done[i]=0;}
+    document.getElementById("Question").style.backgroundColor="blue";
+    document.getElementById(1).style.backgroundColor="black";
+    document.getElementById(2).style.backgroundColor="black";
+    document.getElementById(3).style.backgroundColor="black";
+    document.getElementById('Question').innerHTML="Restarting..."
+    setTimeout(newquestion, questionspeed);
+  }
+}
+
+function scorescreen(){
+  document.getElementById("Question").style.backgroundColor="black";
+  document.getElementById(1).style.backgroundColor="black";
+  document.getElementById(2).style.backgroundColor="black";
+  document.getElementById(3).style.backgroundColor="black";
+  document.getElementById('Question').innerHTML="Mistakes: "+(attempts-done.length);
+  document.getElementById('1').innerHTML="Play Again";
+  document.getElementById('2').innerHTML="Edit Input";
+  document.getElementById('3').innerHTML="<a style=\"color:white; text-decoration:none\" href=\"http://jdgmiles.github.io\">Other Things</a>";
+  correctcount++; oktoclick=1;
+}
+
+function startquiz(){
+
+  input=document.getElementById("userquiz").value;
+  inputarray=input.split(",");
+  if(inputarray.length%2==0 && inputarray.length>5){quiz=inputarray};
+
+  document.getElementById('console').innerHTML="<table><tr><td id=\"Question\">Question</td></tr><tr onclick=\"if(oktoclick){clicked(1)}\"><td id=\"1\">X</td></tr><tr onclick=\"if(oktoclick){clicked(2)}\"><td id=\"2\">Y</td></tr><tr onclick=\"if(oktoclick){clicked(3)}\"><td id=\"3\">Z</td></tr></table><a id=\"bongo\"></a>";
+
+//  document.getElementById("bongo").innerHTML=inputarray;
+  newquestion();
+}
+
+</script>
