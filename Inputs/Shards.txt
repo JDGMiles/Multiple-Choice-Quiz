@@ -1,0 +1,1 @@
+﻿White Black Blue, White Black Red, White Black Green, White Blue Red, White Blue Green, White Red Green, Black Blue Red, Black Blue Green, Black Red Green, Blue Red Green, Esper, Mardu, Abzan, Jeskai, Bant, Naya, Grixis, Sultai, Jund, Temur
